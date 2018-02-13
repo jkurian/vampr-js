@@ -23,8 +23,8 @@ class Vampire {
   get numberOfVampiresFromOriginal() {
     let distance = 0;
     let currentVampire = this;
-    
-    while(currentVampire.creator) {
+
+    while (currentVampire.creator) {
       distance++;
       currentVampire = currentVampire.creator;
     }
@@ -33,7 +33,7 @@ class Vampire {
 
   // Returns true if this vampire is more senior than the other vampire. (Who is closer to the original vampire)
   isMoreSeniorThan(vampire) {
-    if(vampire.numberOfVampiresFromOriginal > this.numberOfVampiresFromOriginal) return true
+    if (vampire.numberOfVampiresFromOriginal > this.numberOfVampiresFromOriginal) return true
     return false
   }
 
@@ -45,9 +45,28 @@ class Vampire {
   // * when comparing Ansel and Sarah, Ansel is the closest common anscestor.
   // * when comparing Ansel and Andrew, Ansel is the closest common anscestor.
   closestCommonAncestor(vampire) {
-    
+    let parentA = this;
+    let parentB = vampire;
+  
+    var ancestor = null;
+    let found = false;
+
+    while(parentA != null) {
+      while(parentB != null) {
+        if(parentA.name === parentB.name) {
+          ancestor = parentB;
+          found = true;
+          break;
+        }
+        parentB = parentB.creator;
+      }
+      if(found) break;
+      parentA = parentA.creator;
+      parentB = vampire;
+    }
+
+    return ancestor;
   }
 }
 
 module.exports = Vampire;
-
